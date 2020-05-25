@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
     	User user = null;
     	if(EmailValidation.isValidEmailAddress(username)) {
     		user = userRepository.findUserByEmail(username);
-    	}else if(PhoneValidation.isPhoneValid(username)){
+    	}else if(PhoneValidation.isValidPhone(username)){
     		user = userRepository.findUserByPhone(username);
     	}
         if(user == null){

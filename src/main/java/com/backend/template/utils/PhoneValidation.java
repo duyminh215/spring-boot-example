@@ -61,7 +61,7 @@ public class PhoneValidation {
 	    return phone;
 	}
 	
-	public static boolean isPhoneValid(String phone) {
+	public static boolean isValidPhone(String phone) {
 		String correctPhone = correctToPhoneNumber(phone);
 		if(Utils.isStringEmpty(correctPhone)) {
 			return false;

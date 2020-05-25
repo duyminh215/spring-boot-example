@@ -3,8 +3,6 @@ package com.backend.template.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.Date;
 import java.math.BigInteger;
 

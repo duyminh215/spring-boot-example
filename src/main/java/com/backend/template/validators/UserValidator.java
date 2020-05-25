@@ -42,7 +42,7 @@ public class UserValidator {
 	}
 	
 	public boolean isInvalidPhone(String phone) {
-		return !PhoneValidation.isPhoneValid(phone);
+		return !PhoneValidation.isValidPhone(phone);
 	}
 	
 	public boolean isEmailEmpty(String email) {
