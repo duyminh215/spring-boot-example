@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.template.exception.ServerException;
 import com.backend.template.model.ClientSetting;
 import com.backend.template.model.response.ResponseFactory;
-import com.backend.template.paging.PagingInfo;
 import com.backend.template.service.ResourceService;
 import com.backend.template.utils.Utils;
 
@@ -36,8 +35,7 @@ public class ResourceController extends BaseController{
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "") String sort) {
     	PageRequest pageable = PageRequest.of(page, size, Sort.by(Utils.getOrderFieldsOfRequest(sort)));
-    	PagingInfo<ClientSetting> data = resourceService.getAllClientSettings(name, pageable);
-        return responseFactory.success(data);
+        return responseFactory.success(resourceService.getAllClientSettings(name, pageable));
     }
     
     @GetMapping("/client-settings-test")
