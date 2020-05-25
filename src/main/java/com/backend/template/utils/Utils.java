@@ -33,4 +33,11 @@ public class Utils {
 	public static long getUnixTimeInSecond() {
 		return System.currentTimeMillis() / 1000L;
 	}
+	
+	public static boolean isStringEmpty(String string) {
+		if(string == null || string.trim().isEmpty()) {
+			return true;
+		}
+		return false;
+	}
 }
