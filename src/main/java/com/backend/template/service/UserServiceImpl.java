@@ -14,6 +14,7 @@ import com.backend.template.dto.UserDetailCustomDto;
 import com.backend.template.dto.input.CreateUserInput;
 import com.backend.template.model.User;
 import com.backend.template.repositories.UserRepository;
+import com.backend.template.utils.EmailValidation;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService{
@@ -25,7 +26,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         // TODO Auto-generated method stub
-        User user = userRepository.findUserByEmail(username);
+    	User user = null;
+    	if(EmailValidation.isValidEmailAddress(username)) {
+    		user = userRepository.findUserByEmail(username);
+    	}else {
+    		user = userRepository.findUserByPhone(username);
+    	}
         if(user == null){
             throw new UsernameNotFoundException("Invalid username or password.");
         }
