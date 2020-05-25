@@ -15,6 +15,7 @@ import com.backend.template.dto.input.CreateUserInput;
 import com.backend.template.model.User;
 import com.backend.template.repositories.UserRepository;
 import com.backend.template.utils.EmailValidation;
+import com.backend.template.utils.PhoneValidation;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService{
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
     	User user = null;
     	if(EmailValidation.isValidEmailAddress(username)) {
     		user = userRepository.findUserByEmail(username);
-    	}else {
+    	}else if(PhoneValidation.isPhoneValid(username)){
     		user = userRepository.findUserByPhone(username);
     	}
         if(user == null){
