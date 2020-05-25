@@ -1,0 +1,18 @@
+version: v1.0
+name: Docker build
+blocks:
+  - name: Build
+    task:
+      jobs:
+        - name: Build and deploy docker container
+          commands:
+            - checkout
+            - mvn -q package -Dmaven.test.skip=true
+            - echo "Minhlaai215()" | docker login  --username "duyminh215" --password-stdin
+            - 'docker pull duyminh215/semaphore-demo-java-spring:latest || true'
+            - 'docker build --cache-from duyminh215/semaphore-demo-java-spring:latest --build-arg ENVIRONMENT=production -t duyminh215/semaphore-demo-java-spring:latest .'
+            - 'docker push duyminh215/semaphore-demo-java-spring:latest'
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804

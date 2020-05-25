@@ -1,0 +1,46 @@
+version: v1.0
+name: Java Spring boot CI/CD
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Maven
+    task:
+      jobs:
+        - name: Build
+          commands:
+            - checkout
+            - sem-version java 1.8
+            - mvn -B package --file pom.xml
+      secrets:
+        - name: dockerhub
+  - name: Tests
+    task:
+      jobs:
+        - name: Unit tests
+          commands:
+            - checkout
+            - cache restore
+            - 'mvn jmeter:jmeter -Pjmeter'
+            - cache store
+        - name: Intergration tests
+          commands:
+            - checkout
+            - cache restore
+            - mvn -q test-compile -Dmaven.test.skip=true
+  - name: 'Block #3'
+    task:
+      jobs:
+        - name: Benchmark
+          commands:
+            - checkout
+            - java -version
+            - java -jar target/template-0.0.1-SNAPSHOT.jar > /dev/null &
+            - sleep 20
+            - 'mvn jmeter:jmeter -Pjmeter'
+promotions:
+  - name: Dockerize
+    pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: branch = 'master' AND result = 'passed'
