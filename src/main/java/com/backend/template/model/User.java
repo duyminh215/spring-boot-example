@@ -3,8 +3,9 @@ package com.backend.template.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.backend.template.utils.Utils;
+
 import java.util.Date;
-import java.math.BigInteger;
 
 
 /**
@@ -32,7 +33,7 @@ public class User implements Serializable {
 	private Date birthday;
 
 	@Column(name="created_time")
-	private BigInteger createdTime;
+	private Long createdTime;
 
 	@Column(name="device_id")
 	private String deviceId;
@@ -61,9 +62,21 @@ public class User implements Serializable {
 	private String pushToken;
 
 	@Column(name="updated_time")
-	private BigInteger updatedTime;
+	private Long updatedTime;
 
 	public User() {
+	}
+	
+	public User(String email, String fullName, String phone) {
+		if(!Utils.isStringEmpty(email)) {
+			this.email = email;
+		}
+		this.fullName = fullName;
+		if(!Utils.isStringEmpty(phone)) {
+			this.phone = phone;
+		}
+		this.createdTime = Utils.getUnixTimeInSecond();
+		this.updatedTime = Utils.getUnixTimeInSecond();
 	}
 
 	public long getId() {
@@ -98,11 +111,11 @@ public class User implements Serializable {
 		this.birthday = birthday;
 	}
 
-	public BigInteger getCreatedTime() {
+	public Long getCreatedTime() {
 		return this.createdTime;
 	}
 
-	public void setCreatedTime(BigInteger createdTime) {
+	public void setCreatedTime(Long createdTime) {
 		this.createdTime = createdTime;
 	}
 
@@ -186,11 +199,11 @@ public class User implements Serializable {
 		this.pushToken = pushToken;
 	}
 
-	public BigInteger getUpdatedTime() {
+	public Long getUpdatedTime() {
 		return this.updatedTime;
 	}
 
-	public void setUpdatedTime(BigInteger updatedTime) {
+	public void setUpdatedTime(Long updatedTime) {
 		this.updatedTime = updatedTime;
 	}
 

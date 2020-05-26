@@ -16,7 +16,6 @@ import com.backend.template.dto.input.CreateUserInput;
 import com.backend.template.model.User;
 import com.backend.template.model.response.ResponseFactory;
 import com.backend.template.service.UserServiceImpl;
-import com.backend.template.validators.UserValidator;
 
 @RestController
 @RequestMapping("/api")
@@ -26,9 +25,6 @@ public class UserController {
 	
 	@Autowired
 	private ResponseFactory responseFactory;
-	
-	@Autowired
-	private UserValidator userValidator;
 	
     @Autowired
     private UserServiceImpl userService;
@@ -50,8 +46,7 @@ public class UserController {
     }
     
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
-    public ResponseEntity<?> signUp(CreateUserInput createUserInput){
-    	userValidator.validateCreateUser(createUserInput);
-    	return responseFactory.success(userService.signUp(createUserInput));
+    public ResponseEntity<?> signUpByEmailOrPhone(@RequestBody CreateUserInput createUserInput) throws Exception{
+    	return responseFactory.success(userService.signUpByEmailOrPhone(createUserInput));
     }
 }

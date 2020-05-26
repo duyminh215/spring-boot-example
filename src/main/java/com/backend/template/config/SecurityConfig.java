@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-       web.ignoring();
+       web.ignoring().antMatchers("/api/sign-up");
     }
 
     @Override
@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .anonymous().disable()
                 .authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
+                .antMatchers("/api/sign-up").permitAll()
                 .antMatchers("/api-docs/**").permitAll();
     }
 
