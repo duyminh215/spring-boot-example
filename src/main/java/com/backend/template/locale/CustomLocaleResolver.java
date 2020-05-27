@@ -18,8 +18,7 @@ public class CustomLocaleResolver extends AcceptHeaderLocaleResolver implements 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         String headerLang = request.getHeader("Accept-Language");
-        return headerLang == null || headerLang.isEmpty()
-                ? Locale.getDefault()
+        return headerLang == null || headerLang.isEmpty() ? Locale.getDefault()
                 : Locale.lookup(Locale.LanguageRange.parse(headerLang), LOCALES);
     }
 

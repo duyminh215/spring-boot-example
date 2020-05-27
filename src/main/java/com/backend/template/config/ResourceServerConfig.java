@@ -10,24 +10,25 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-	@Autowired
-	private AuthorizationServerConfig authorizationServerConfig;
-	
+    @Autowired
+    private AuthorizationServerConfig authorizationServerConfig;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-    	resources.tokenStore(authorizationServerConfig.tokenStore()).resourceId(AuthorizationServerConfig.RESOURCE_ID);
+        resources.tokenStore(authorizationServerConfig.tokenStore()).resourceId(AuthorizationServerConfig.RESOURCE_ID);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.
-                anonymous().disable()
-                .authorizeRequests()
-                .antMatchers("/users/**").access("hasRole('ADMIN')")
-                .antMatchers("/api/**").access("hasRole('ADMIN')")
-                .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+        http
+        .anonymous().disable()
+        .authorizeRequests()
+        .antMatchers("/users/**").access("hasRole('ADMIN')")
+        .antMatchers("/api/**").access("hasRole('ADMIN')")
+        .and().exceptionHandling()
+                .accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 
 }

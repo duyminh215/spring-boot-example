@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @PropertySource("classpath:application.properties")
 public class TemplateApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 }

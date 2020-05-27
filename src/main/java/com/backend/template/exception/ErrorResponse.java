@@ -13,14 +13,13 @@ public class ErrorResponse {
     }
 
     private int code;
-    //General message about error
+    // General message about error
     private String message;
 
-    //errors in API request processing
+    // errors in API request processing
     private List<String> details;
 
-    //Setters and Getters are omitted
-
+    // Setters and Getters are omitted
 
     public String getMessage() {
         return message;

@@ -13,41 +13,41 @@ import com.backend.template.model.User;
 import com.backend.template.repositories.UserRepository;
 
 public class BaseController {
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	HttpServletRequest request;
 
-	private User loginedUser;
+    @Autowired
+    private UserRepository userRepository;
 
-	public User getLoginedUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(isLoginedUser()) {
-			long userId = Long.parseLong(authentication.getName());
-			loginedUser = userRepository.getOne(userId);
-		}
-		return loginedUser;
-	}
-	
-	private boolean isLoginedUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication instanceof AnonymousAuthenticationToken) {
-			return false;
-		}
-		return true;
-	}
-	
-	public UserBasicInfoDto getUserBasicInfo() {
-		UserBasicInfoDto userBasicInfoDto = new UserBasicInfoDto();
-		User loginedUser = getLoginedUser();
-		if(loginedUser != null) {
-			userBasicInfoDto.setUserId(loginedUser.getId());
-			userBasicInfoDto.setLogin(true);
-		}
-		String language = request.getHeader(HeaderContants.ACCEPT_LANGUAGE);
-		userBasicInfoDto.setLanguage(language);
-		return userBasicInfoDto;
-	}
+    @Autowired
+    HttpServletRequest request;
+
+    private User loginedUser;
+
+    public User getLoginedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (isLoginedUser()) {
+            long userId = Long.parseLong(authentication.getName());
+            loginedUser = userRepository.getOne(userId);
+        }
+        return loginedUser;
+    }
+
+    private boolean isLoginedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return false;
+        }
+        return true;
+    }
+
+    public UserBasicInfoDto getUserBasicInfo() {
+        UserBasicInfoDto userBasicInfoDto = new UserBasicInfoDto();
+        User loginedUser = getLoginedUser();
+        if (loginedUser != null) {
+            userBasicInfoDto.setUserId(loginedUser.getId());
+            userBasicInfoDto.setLogin(true);
+        }
+        String language = request.getHeader(HeaderContants.ACCEPT_LANGUAGE);
+        userBasicInfoDto.setLanguage(language);
+        return userBasicInfoDto;
+    }
 }

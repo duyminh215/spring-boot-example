@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Translator {
 
-  private static ResourceBundleMessageSource messageSource;
+    private static ResourceBundleMessageSource messageSource;
 
-  @Autowired
-  Translator(ResourceBundleMessageSource messageSource) {
-    Translator.messageSource = messageSource;
-  }
+    @Autowired
+    Translator(ResourceBundleMessageSource messageSource) {
+        Translator.messageSource = messageSource;
+    }
 
-  public static String toLocale(String messageCode,String... params) {
-    Locale locale = LocaleContextHolder.getLocale();
-    return messageSource.getMessage(messageCode, params, locale);
-  }
+    public static String toLocale(String messageCode, String... params) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage(messageCode, params, locale);
+    }
 }

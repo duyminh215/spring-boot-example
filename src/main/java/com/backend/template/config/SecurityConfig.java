@@ -21,12 +21,12 @@ import com.backend.template.service.UserServiceImpl;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
+    @Autowired
     private UserServiceImpl userDetailsService;
-	
-	@Override
+
+    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -34,33 +34,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
-    
+
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
-       web.ignoring().antMatchers("/api/sign-up");
+        web.ignoring().antMatchers("/api/sign-up");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .anonymous().disable()
-                .authorizeRequests()
-                .antMatchers("/oauth/token").permitAll()
-                .antMatchers("/api/sign-up").permitAll()
-                .antMatchers("/api-docs/**").permitAll();
+        .csrf().disable()
+        .anonymous().disable()
+        .authorizeRequests()
+        .antMatchers("/oauth/token").permitAll()
+        .antMatchers("/api/sign-up").permitAll()
+        .antMatchers("/api-docs/**").permitAll();
     }
 
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 

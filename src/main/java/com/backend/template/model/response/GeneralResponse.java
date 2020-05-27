@@ -17,33 +17,31 @@ import lombok.Setter;
 @Setter
 public class GeneralResponse<T> {
 
-  @JsonProperty("status")
-  private ResponseStatus status;
+    @JsonProperty("status")
+    private ResponseStatus status;
 
-  @JsonProperty("data")
-  private T data;
+    @JsonProperty("data")
+    private T data;
 
-  @Override
-  public String toString() {
-    return "{" + "status=" + status +
-        ", data=" + data +
-        '}';
-  }
+    @Override
+    public String toString() {
+        return "{" + "status=" + status + ", data=" + data + '}';
+    }
 
-  public ResponseStatus getStatus() {
-    return status;
-  }
+    public ResponseStatus getStatus() {
+        return status;
+    }
 
-  public void setStatus(ResponseStatus status) {
-    this.status = status;
-  }
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
 
-  public T getData() {
-    return data;
-  }
+    public T getData() {
+        return data;
+    }
 
-  public void setData(T data) {
-    this.data = data;
-  }
+    public void setData(T data) {
+        this.data = data;
+    }
 
 }

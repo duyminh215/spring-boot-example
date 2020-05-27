@@ -20,33 +20,33 @@ import com.backend.template.service.UserServiceImpl;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-	
-	private static final Logger logger = LogManager.getLogger(UserController.class);
-	
-	@Autowired
-	private ResponseFactory responseFactory;
-	
+
+    private static final Logger logger = LogManager.getLogger(UserController.class);
+
+    @Autowired
+    private ResponseFactory responseFactory;
+
     @Autowired
     private UserServiceImpl userService;
 
-    @RequestMapping(value="/user", method = RequestMethod.GET)
-    public List<User> listUser(){
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public List<User> listUser() {
         return userService.findAll();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User create(@RequestBody User user){
+    public User create(@RequestBody User user) {
         return userService.save(user);
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable(value = "id") Long id){
+    public String delete(@PathVariable(value = "id") Long id) {
         userService.delete(id);
         return "success";
     }
-    
+
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
-    public ResponseEntity<?> signUpByEmailOrPhone(@RequestBody CreateUserInput createUserInput) throws Exception{
-    	return responseFactory.success(userService.signUpByEmailOrPhone(createUserInput));
+    public ResponseEntity<?> signUpByEmailOrPhone(@RequestBody CreateUserInput createUserInput) throws Exception {
+        return responseFactory.success(userService.signUpByEmailOrPhone(createUserInput));
     }
 }

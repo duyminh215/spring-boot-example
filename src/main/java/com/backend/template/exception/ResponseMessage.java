@@ -12,32 +12,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResponseMessage {
 
-  @JsonProperty("status")
-  private ResponseStatus status;
+    @JsonProperty("status")
+    private ResponseStatus status;
 
-  @JsonProperty("data")
-  private Object data;
+    @JsonProperty("data")
+    private Object data;
 
-  @Override
-  public String toString() {
-    return "{" + "status=" + status +
-        ", data=" + data +
-        '}';
-  }
+    @Override
+    public String toString() {
+        return "{" + "status=" + status + ", data=" + data + '}';
+    }
 
-  public ResponseStatus getStatus() {
-    return status;
-  }
+    public ResponseStatus getStatus() {
+        return status;
+    }
 
-  public void setStatus(ResponseStatus status) {
-    this.status = status;
-  }
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
 
-  public Object getData() {
-    return data;
-  }
+    public Object getData() {
+        return data;
+    }
 
-  public void setData(Object data) {
-    this.data = data;
-  }
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

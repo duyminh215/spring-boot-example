@@ -20,23 +20,23 @@ import com.backend.template.repositories.ClientSettingRepository;
 import com.backend.template.repositories.specifications.ClientSettingSpecification;
 
 @Service
-@CacheConfig(cacheNames = {"clientSetting"})
+@CacheConfig(cacheNames = { "clientSetting" })
 public class ResourceService {
 
-	@Autowired
-	ClientSettingRepository clientSettingRepository;
-    
-	@Cacheable(value = "clientSettings", key="{ 'name:' + #name, 'page:' + #pageable.getPageNumber(), 'size:' + #pageable.getPageSize(), 'sort:' + #pageable.getSort().toString() }")
-	public PagingInfo<ClientSetting> getAllClientSettings(String name, PageRequest pageable) {
-		Specification conditions = null;
-		if(!StringUtils.isEmpty(name)) {
-			conditions = Specification.where(ClientSettingSpecification.hasName(name)); 
-		}
+    @Autowired
+    ClientSettingRepository clientSettingRepository;
+
+    @Cacheable(value = "clientSettings", key = "{ 'name:' + #name, 'page:' + #pageable.getPageNumber(), 'size:' + #pageable.getPageSize(), 'sort:' + #pageable.getSort().toString() }")
+    public PagingInfo<ClientSetting> getAllClientSettings(String name, PageRequest pageable) {
+        Specification conditions = null;
+        if (!StringUtils.isEmpty(name)) {
+            conditions = Specification.where(ClientSettingSpecification.hasName(name));
+        }
         Page<ClientSetting> clientSettingsPage = clientSettingRepository.findAll(conditions, pageable);
         return PageResponseBuilder.buildPagingData(clientSettingsPage, pageable);
     }
-    
-    public List<ClientSetting> getClientSettingsByIds() throws ServerException{
+
+    public List<ClientSetting> getClientSettingsByIds() throws ServerException {
         throw new ServerException(ErrorMessage.CUSTOMER_CODE_NOT_FOUND);
     }
 }

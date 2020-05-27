@@ -20,21 +20,19 @@ import com.backend.template.config.LoggableDispatcherServlet;
 @EnableJpaAuditing
 @EnableResourceServer
 @EnableAuthorizationServer
-@EnableJpaRepositories(
-		basePackages="com.backend.template.repositories",
-		entityManagerFactoryRef = "entityManagerFactory",
-	    transactionManagerRef = "transactionManager"
-)
+@EnableJpaRepositories(basePackages = "com.backend.template.repositories",
+    entityManagerFactoryRef = "entityManagerFactory", 
+    transactionManagerRef = "transactionManager")
 @EntityScan("com.backend.template.model")
-@ComponentScan({"com.backend.template.*"})
+@ComponentScan({ "com.backend.template.*" })
 @EnableCaching
 public class TemplateApplication {
-	
-	public static void main(String[] args) {
-		SpringApplication.run(TemplateApplication.class, args);
-	}
-	
-	@Bean
+
+    public static void main(String[] args) {
+        SpringApplication.run(TemplateApplication.class, args);
+    }
+
+    @Bean
     public ServletRegistrationBean dispatcherRegistration() {
         return new ServletRegistrationBean(dispatcherServlet());
     }

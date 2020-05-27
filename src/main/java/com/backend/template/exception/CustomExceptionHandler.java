@@ -24,12 +24,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.backend.template.locale.Translator;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler implements ResponseErrorHandler {
-	
-	private static final Logger logger = LogManager.getLogger(CustomExceptionHandler.class);
-	
+
+    private static final Logger logger = LogManager.getLogger(CustomExceptionHandler.class);
+
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -52,7 +52,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
     public final ResponseEntity<Object> handleRecordNotFoundException(RecordNotFoundException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), Translator.toLocale("error.msg.record.not_found"), details);
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                Translator.toLocale("error.msg.record.not_found"), details);
         logger.error(ex.getMessage());
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
     }
@@ -61,14 +62,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
     public final ResponseEntity<Object> handleRequestInvalidException(RequestInvalidException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), Translator.toLocale("error.msg.request.invalid"), details);
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                Translator.toLocale("error.msg.request.invalid"), details);
         logger.error(ex.getMessage());
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> details = new ArrayList<>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             details.add(error.getDefaultMessage());
@@ -81,7 +83,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
     public final ResponseEntity<Object> handleFileNotFoundException(FileNotFoundException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), Translator.toLocale("error.msg.file.not_found"), details);
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                Translator.toLocale("error.msg.file.not_found"), details);
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
     }
 
@@ -89,10 +92,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
     public final ResponseEntity<Object> handleFileStorageException(FileStorageException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), Translator.toLocale("error.msg.file.can_not.store"), details);
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                Translator.toLocale("error.msg.file.can_not.store"), details);
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
     }
-
 
     @Override
     public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
@@ -110,7 +113,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
     @Override
     public void handleError(URI url, HttpMethod method, ClientHttpResponse response) throws IOException {
         String responseAsString = toString(response.getBody());
-        //log.error("URL: {}, HttpMethod: {}, ResponseBody: {}", url, method, responseAsString);
+        // log.error("URL: {}, HttpMethod: {}, ResponseBody: {}", url, method,
+        // responseAsString);
         throw new CustomException(responseAsString);
     }
 
