@@ -5,13 +5,18 @@ import static org.junit.Assert.assertEquals;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.mockito.Mockito.*;
+
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import com.backend.template.dto.input.CreateUserInput;
@@ -39,10 +44,11 @@ public class UserControllerTest {
 		userDto.setId(1);
 		String bodyJson = "{\"fullName\":\"Nguyễn Duy Minh\",\"email\":\"duyminh215990@gmail.com\",\"phone\":\"\", \"password\": \"123456\"}";
 		when(this.userService.signUpByEmailOrPhone(Mockito.any(CreateUserInput.class))).thenReturn(userDto);
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/sign-up").contentType(MediaType.APPLICATION_JSON).content(bodyJson)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(status, 200);
-		assertEquals(userDto.getId(), 1);
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/sign-up")
+				.contentType(MediaType.APPLICATION_JSON).content(bodyJson))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data.id", Matchers.is(1)))
+				;
 	}
 	
 	@Test
@@ -50,8 +56,10 @@ public class UserControllerTest {
 		RequestInvalidException exception = new RequestInvalidException("Full name is empty");
 		String bodyJson = "{\"fullName\":\"Nguyễn Duy Minh\",\"email\":\"duyminh215990@gmail.com\",\"phone\":\"\", \"password\": \"\"}";
 		when(this.userService.signUpByEmailOrPhone(Mockito.any(CreateUserInput.class))).thenThrow(exception);
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/sign-up").contentType(MediaType.APPLICATION_JSON).content(bodyJson)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(status, 200);
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/sign-up")
+				.contentType(MediaType.APPLICATION_JSON).content(bodyJson))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Full name is empty")));
+		
 	}
 }

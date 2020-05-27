@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @EnableAutoConfiguration()
 @EnableCaching
 @PropertySource("classpath:application.properties")
-//@TestPropertySource(locations="classpath:application.properties")
 public class TemplateApplicationTests {
 
 	@Test
