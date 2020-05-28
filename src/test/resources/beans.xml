@@ -54,6 +54,15 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="defaultEncoding" value="UTF-8"/>
+    <property name="basenames">
+        <list>
+            <value>classpath:messages_en.properties</value>
+        </list>
+    </property>
+</bean>
 
     <!-- Hibernate Transaction Manager -->
     <bean id="ClientSettingDao" class="com.backend.template.dao.ClientSettingDao"/>
