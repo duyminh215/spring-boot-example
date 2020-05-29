@@ -28,7 +28,7 @@ public class ResourceServiceTest {
         PagingInfo<ClientSetting> clientSettingPagingInfo = resourceService.getAllClientSettings(name, pageable);
         assertEquals(clientSettingPagingInfo.getContents().size(), 0);
     }
-    
+
     @Test
     public void testGetClientSettingWithFilter(){
         String name = "hello";
@@ -36,5 +36,5 @@ public class ResourceServiceTest {
         PagingInfo<ClientSetting> clientSettingPagingInfo = resourceService.getAllClientSettings(name, pageable);
         assertEquals(clientSettingPagingInfo.getContents().size(), 1);
     }
-    
+
 }

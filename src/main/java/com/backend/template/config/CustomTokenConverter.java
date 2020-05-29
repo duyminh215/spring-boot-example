@@ -10,17 +10,17 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import com.backend.template.dto.UserDetailCustomDto;
 
-public class CustomTokenConverter extends JwtAccessTokenConverter{
+public class CustomTokenConverter extends JwtAccessTokenConverter {
 
-	@Override
-	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		// TODO Auto-generated method stub
+    @Override
+    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        // TODO Auto-generated method stub
         accessToken = super.enhance(accessToken, authentication);
         UserDetailCustomDto userDetailCustomDto = (UserDetailCustomDto) authentication.getPrincipal();
-		final Map<String, Object> additionalInfo = new HashMap<String, Object>();
+        final Map<String, Object> additionalInfo = new HashMap<String, Object>();
         additionalInfo.put("userId", userDetailCustomDto.getId());
-        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);    
+        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
-	}
+    }
 
 }

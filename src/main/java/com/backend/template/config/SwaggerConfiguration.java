@@ -29,50 +29,40 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
-  public static final String AUTHORIZATION_HEADER = "Authorization";
-  public static final String DEFAULT_INCLUDE_PATTERN = "/mobile-money/.*";
-  private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String DEFAULT_INCLUDE_PATTERN = "/mobile-money/.*";
+    private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
-  @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2).select()
-        .apis(RequestHandlerSelectors
-            .basePackage("com.viettel.mobilemoney.controller"))
-        .paths(PathSelectors.regex("/.*"))
-        .build().apiInfo(apiEndPointsInfo())
-        .directModelSubstitute(Timestamp.class, Date.class)
-        .securityContexts(Lists.newArrayList(securityContext()))
-        .securitySchemes(Lists.newArrayList(apiKey()))
-        .useDefaultResponseMessages(false);
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage("com.viettel.mobilemoney.controller"))
+                .paths(PathSelectors.regex("/.*")).build().apiInfo(apiEndPointsInfo())
+                .directModelSubstitute(Timestamp.class, Date.class)
+                .securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()))
+                .useDefaultResponseMessages(false);
 
-  }
+    }
 
-  private ApiInfo apiEndPointsInfo() {
-    return new ApiInfoBuilder().title("Mobile money 2.0")
-        .description("Mobile money 2.0")
-        .contact(
-            new Contact("Mobile money 2.0 ", "https://digital.viettel.vn", "thanhnd59@viettel.com.vn"))
-        .version("1.0.0")
-        .build();
-  }
+    private ApiInfo apiEndPointsInfo() {
+        return new ApiInfoBuilder().title("Mobile money 2.0").description("Mobile money 2.0")
+                .contact(new Contact("Mobile money 2.0 ", "https://digital.viettel.vn", "thanhnd59@viettel.com.vn"))
+                .version("1.0.0").build();
+    }
 
-  private ApiKey apiKey() {
-    return new ApiKey("TOKEN", AUTHORIZATION_HEADER, "header");
-  }
+    private ApiKey apiKey() {
+        return new ApiKey("TOKEN", AUTHORIZATION_HEADER, "header");
+    }
 
-  private SecurityContext securityContext() {
-    return SecurityContext.builder()
-        .securityReferences(defaultAuth())
-        .forPaths(regex(DEFAULT_INCLUDE_PATTERN))
-        .build();
-  }
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(regex(DEFAULT_INCLUDE_PATTERN))
+                .build();
+    }
 
-  List<SecurityReference> defaultAuth() {
-    AuthorizationScope authorizationScope
-        = new AuthorizationScope("global", "accessEverything");
-    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-    authorizationScopes[0] = authorizationScope;
-    return Lists.newArrayList(
-        new SecurityReference("TOKEN", authorizationScopes));
-  }
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(new SecurityReference("TOKEN", authorizationScopes));
+    }
 }

@@ -5,14 +5,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.backend.template.constant.ErrorMessage;
 
-public class ServerException extends ResponseStatusException{
+public class ServerException extends ResponseStatusException {
 
     private static final long serialVersionUID = 1L;
     /** The error message. */
     private final ErrorMessage errorMessage;
-    
+
     private final Object args;
-    
+
     public String getMessage() {
         return message;
     }
@@ -26,8 +26,7 @@ public class ServerException extends ResponseStatusException{
     /**
      * Instantiates a new epic exception.
      * 
-     * @param pErrorMessage
-     *            the error message
+     * @param pErrorMessage the error message
      */
     public ServerException(ErrorMessage pErrorMessage) {
         super(HttpStatus.NOT_FOUND, pErrorMessage.getMessage());
@@ -35,9 +34,10 @@ public class ServerException extends ResponseStatusException{
         args = null;
     }
 
-    public ServerException(ErrorMessage pErrorMessage, Object ...pArgs) {
+    public ServerException(ErrorMessage pErrorMessage, Object... pArgs) {
         super(HttpStatus.NOT_FOUND, pErrorMessage.getMessage());
-        //pErrorMessage.setMessage(messagesApi.get(Lang.forCode(lang), pErrorMessage.getMessage(), args));
+        // pErrorMessage.setMessage(messagesApi.get(Lang.forCode(lang),
+        // pErrorMessage.getMessage(), args));
         errorMessage = pErrorMessage;
         args = pArgs;
     }
@@ -63,6 +63,7 @@ public class ServerException extends ResponseStatusException{
     public ErrorMessage getErrorMessage() {
         return errorMessage;
     }
+
     public Object getArgs() {
         return args;
     }

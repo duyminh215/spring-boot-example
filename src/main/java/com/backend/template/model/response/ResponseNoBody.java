@@ -16,21 +16,20 @@ import lombok.Setter;
 @Setter
 public class ResponseNoBody<T> {
 
-  @JsonProperty("status")
-  private ResponseStatus status;
+    @JsonProperty("status")
+    private ResponseStatus status;
 
-  @Override
-  public String toString() {
-    return "{" + "status=" + status + '}';
-  }
+    @Override
+    public String toString() {
+        return "{" + "status=" + status + '}';
+    }
 
-  public ResponseStatus getStatus() {
-    return status;
-  }
+    public ResponseStatus getStatus() {
+        return status;
+    }
 
-  public void setStatus(ResponseStatus status) {
-    this.status = status;
-  }
-
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
 
 }

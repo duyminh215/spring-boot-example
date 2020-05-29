@@ -4,8 +4,10 @@ public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = -2777373325976335319L;
     private String errorCode;
     private String message;
+
     /**
-     * Construct a new instance of {@code RestClientException} with the given message.
+     * Construct a new instance of {@code RestClientException} with the given
+     * message.
      *
      * @param msg the message
      */
@@ -15,8 +17,8 @@ public class BusinessException extends RuntimeException {
     }
 
     /**
-     * Construct a new instance of {@code RestClientException} with the given message and
-     * exception.
+     * Construct a new instance of {@code RestClientException} with the given
+     * message and exception.
      *
      * @param msg the message
      * @param ex  the exception
@@ -27,25 +29,27 @@ public class BusinessException extends RuntimeException {
     }
 
     /**
-     * Construct a new instance of {@code RestClientException} with the given message and
-     * exception.
+     * Construct a new instance of {@code RestClientException} with the given
+     * message and exception.
+     * 
      * @param errorCode the message
-     * @param msg the message
-     * @param ex  the exception
+     * @param msg       the message
+     * @param ex        the exception
      */
-    public BusinessException(String errorCode,String msg, Throwable ex) {
+    public BusinessException(String errorCode, String msg, Throwable ex) {
         super(msg, ex);
         this.errorCode = errorCode;
         this.message = msg;
     }
 
     /**
-     * Construct a new instance of {@code RestClientException} with the given message and
-     * exception.
+     * Construct a new instance of {@code RestClientException} with the given
+     * message and exception.
+     * 
      * @param errorCode the message
-     * @param msg the message
+     * @param msg       the message
      */
-    public BusinessException(String errorCode,String msg) {
+    public BusinessException(String errorCode, String msg) {
         super(msg);
         this.errorCode = errorCode;
         this.message = msg;

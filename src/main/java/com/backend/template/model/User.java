@@ -3,197 +3,207 @@ package com.backend.template.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import org.springframework.data.jpa.repository.Query;
+import com.backend.template.utils.Utils;
 
 import java.util.Date;
-import java.math.BigInteger;
-
 
 /**
  * The persistent class for the user database table.
  * 
  */
 @Entity
-@Table(name="user")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-@NamedQuery(name="User.getUserById", query="SELECT t FROM User t where t.id = :id")
-@NamedQuery(name="User.getUserByEmail", query="SELECT t FROM User t where t.email = :email")
+@Table(name = "user")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@NamedQuery(name = "User.getUserById", query = "SELECT t FROM User t where t.id = :id")
+@NamedQuery(name = "User.getUserByEmail", query = "SELECT t FROM User t where t.email = :email")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	@Column(name="apple_id")
-	private String appleId;
+    @Column(name = "apple_id")
+    private String appleId;
 
-	private String avatar;
+    private String avatar;
 
-	@Temporal(TemporalType.DATE)
-	private Date birthday;
+    @Temporal(TemporalType.DATE)
+    private Date birthday;
 
-	@Column(name="created_time")
-	private BigInteger createdTime;
+    @Column(name = "created_time")
+    private Long createdTime;
 
-	@Column(name="device_id")
-	private String deviceId;
+    @Column(name = "device_id")
+    private String deviceId;
 
-	private String email;
+    private String email;
 
-	@Column(name="facebook_id")
-	private String facebookId;
+    @Column(name = "facebook_id")
+    private String facebookId;
 
-	@Column(name="full_name")
-	private String fullName;
+    @Column(name = "full_name")
+    private String fullName;
 
-	private int gender;
+    private int gender;
 
-	@Column(name="google_id")
-	private String googleId;
+    @Column(name = "google_id")
+    private String googleId;
 
-	@Column(name="is_confirm_follower")
-	private int isConfirmFollower;
+    @Column(name = "is_confirm_follower")
+    private int isConfirmFollower;
 
-	private String password;
+    private String password;
 
-	private String phone;
+    private String phone;
 
-	@Column(name="push_token")
-	private String pushToken;
+    @Column(name = "push_token")
+    private String pushToken;
 
-	@Column(name="updated_time")
-	private BigInteger updatedTime;
+    @Column(name = "updated_time")
+    private Long updatedTime;
 
-	public User() {
-	}
+    public User() {
+    }
 
-	public long getId() {
-		return this.id;
-	}
+    public User(String email, String fullName, String phone) {
+        if (!Utils.isStringEmpty(email)) {
+            this.email = email;
+        }
+        this.fullName = fullName;
+        if (!Utils.isStringEmpty(phone)) {
+            this.phone = phone;
+        }
+        this.createdTime = Utils.getUnixTimeInSecond();
+        this.updatedTime = Utils.getUnixTimeInSecond();
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public long getId() {
+        return this.id;
+    }
 
-	public String getAppleId() {
-		return this.appleId;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setAppleId(String appleId) {
-		this.appleId = appleId;
-	}
+    public String getAppleId() {
+        return this.appleId;
+    }
 
-	public String getAvatar() {
-		return this.avatar;
-	}
+    public void setAppleId(String appleId) {
+        this.appleId = appleId;
+    }
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
+    public String getAvatar() {
+        return this.avatar;
+    }
 
-	public Date getBirthday() {
-		return this.birthday;
-	}
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public Date getBirthday() {
+        return this.birthday;
+    }
 
-	public BigInteger getCreatedTime() {
-		return this.createdTime;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-	public void setCreatedTime(BigInteger createdTime) {
-		this.createdTime = createdTime;
-	}
+    public Long getCreatedTime() {
+        return this.createdTime;
+    }
 
-	public String getDeviceId() {
-		return this.deviceId;
-	}
+    public void setCreatedTime(Long createdTime) {
+        this.createdTime = createdTime;
+    }
 
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
-	}
+    public String getDeviceId() {
+        return this.deviceId;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public String getFacebookId() {
-		return this.facebookId;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setFacebookId(String facebookId) {
-		this.facebookId = facebookId;
-	}
+    public String getFacebookId() {
+        return this.facebookId;
+    }
 
-	public String getFullName() {
-		return this.fullName;
-	}
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    public String getFullName() {
+        return this.fullName;
+    }
 
-	public int getGender() {
-		return this.gender;
-	}
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-	public void setGender(int gender) {
-		this.gender = gender;
-	}
+    public int getGender() {
+        return this.gender;
+    }
 
-	public String getGoogleId() {
-		return this.googleId;
-	}
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
 
-	public void setGoogleId(String googleId) {
-		this.googleId = googleId;
-	}
+    public String getGoogleId() {
+        return this.googleId;
+    }
 
-	public int getIsConfirmFollower() {
-		return this.isConfirmFollower;
-	}
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
 
-	public void setIsConfirmFollower(int isConfirmFollower) {
-		this.isConfirmFollower = isConfirmFollower;
-	}
+    public int getIsConfirmFollower() {
+        return this.isConfirmFollower;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public void setIsConfirmFollower(int isConfirmFollower) {
+        this.isConfirmFollower = isConfirmFollower;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public String getPhone() {
-		return this.phone;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getPhone() {
+        return this.phone;
+    }
 
-	public String getPushToken() {
-		return this.pushToken;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setPushToken(String pushToken) {
-		this.pushToken = pushToken;
-	}
+    public String getPushToken() {
+        return this.pushToken;
+    }
 
-	public BigInteger getUpdatedTime() {
-		return this.updatedTime;
-	}
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
 
-	public void setUpdatedTime(BigInteger updatedTime) {
-		this.updatedTime = updatedTime;
-	}
+    public Long getUpdatedTime() {
+        return this.updatedTime;
+    }
+
+    public void setUpdatedTime(Long updatedTime) {
+        this.updatedTime = updatedTime;
+    }
 
 }

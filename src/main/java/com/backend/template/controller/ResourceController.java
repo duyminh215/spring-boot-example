@@ -16,30 +16,27 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.template.exception.ServerException;
 import com.backend.template.model.ClientSetting;
 import com.backend.template.model.response.ResponseFactory;
-import com.backend.template.paging.PagingInfo;
 import com.backend.template.service.ResourceService;
 import com.backend.template.utils.Utils;
 
 @RestController
 @RequestMapping("/api")
-public class ResourceController extends BaseController{
-	private static final Logger logger = LogManager.getLogger(ResourceController.class);
-	@Autowired
-	private ResponseFactory responseFactory;
-    
+public class ResourceController extends BaseController {
+    private static final Logger logger = LogManager.getLogger(ResourceController.class);
+    @Autowired
+    private ResponseFactory responseFactory;
+
     @Autowired
     ResourceService resourceService;
 
     @GetMapping("/client-settings")
     public ResponseEntity<?> getAllClientSettings(@RequestParam(defaultValue = "") String name,
-    		@RequestParam(defaultValue = "0") Integer page, 
-            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "") String sort) {
-    	PageRequest pageable = PageRequest.of(page, size, Sort.by(Utils.getOrderFieldsOfRequest(sort)));
-    	PagingInfo<ClientSetting> data = resourceService.getAllClientSettings(name, pageable);
-        return responseFactory.success(data);
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Utils.getOrderFieldsOfRequest(sort)));
+        return responseFactory.success(resourceService.getAllClientSettings(name, pageable));
     }
-    
+
     @GetMapping("/client-settings-test")
     public List<ClientSetting> getClientSettingsTest() throws ServerException {
         return resourceService.getClientSettingsByIds();

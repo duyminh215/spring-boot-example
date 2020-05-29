@@ -10,7 +10,6 @@ import com.backend.template.constant.ResponseStatusCode;
 import com.backend.template.model.response.GeneralResponse;
 import com.backend.template.model.response.ResponseStatus;
 
-
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,7 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.createResponse(ResponseStatusCode.INTERNAL_GENERAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({BusinessException.class})
+    @ExceptionHandler({ BusinessException.class })
     public final ResponseEntity<?> handleValidationExceptions(RuntimeException ex) {
         return this.createResponse(ResponseStatusCode.BUSINESS_ERROR);
     }

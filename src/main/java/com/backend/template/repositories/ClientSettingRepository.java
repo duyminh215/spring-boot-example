@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.backend.template.model.ClientSetting;
 
 @Repository
-public interface ClientSettingRepository extends JpaRepository<ClientSetting, Integer>, JpaSpecificationExecutor<ClientSetting>{
+public interface ClientSettingRepository
+        extends JpaRepository<ClientSetting, Integer>, JpaSpecificationExecutor<ClientSetting> {
 
-	ClientSetting findByName(String name);
+    ClientSetting findByName(String name);
 }
