@@ -9,7 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.mockito.Mockito.*;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -31,9 +33,9 @@ public class UserControllerTest {
 
     @Autowired
     private ResponseFactory responseFactory;
-
+    
     @Test
-    public void testSignUpSucceFull() throws Exception {
+    public void testSignUpSuccess() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(1);
         String bodyJson = "{\"fullName\":\"Nguyễn Duy Minh\",\"email\":\"duyminh215990@gmail.com\",\"phone\":\"\", \"password\": \"123456\"}";
