@@ -8,14 +8,14 @@ import org.springframework.data.domain.Sort.Order;
 public class Utils {
 
     public static List<Order> getOrderFieldsOfRequest(String sortInput) {
-        if (sortInput == null || sortInput.trim().isEmpty()) {
-            return new LinkedList<Order>();
+        List<Order> sortFields = new LinkedList<Order>();
+        if (isStringEmpty(sortInput)) {
+            return sortFields;
         }
         String fields[] = sortInput.split(",");
         if (fields == null || fields.length == 0) {
-            return new LinkedList<Order>();
+            return sortFields;
         }
-        List<Order> sortFields = new LinkedList<Order>();
         for (String field : fields) {
             sortFields.add(detectSortAscOrDesc(field));
         }
