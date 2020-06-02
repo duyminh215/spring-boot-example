@@ -20,7 +20,7 @@ import com.backend.template.service.ResourceService;
 import com.backend.template.utils.Utils;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/resources")
 public class ResourceController extends BaseController {
     private static final Logger logger = LogManager.getLogger(ResourceController.class);
     @Autowired
