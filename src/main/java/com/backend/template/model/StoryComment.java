@@ -2,7 +2,7 @@ package com.backend.template.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
+import javax.validation.constraints.NotBlank;
 
 /**
  * The persistent class for the story_comment database table.
@@ -21,16 +21,17 @@ public class StoryComment implements Serializable {
     @Column(name = "commented_time")
     private Long commentedTime;
 
+    @NotBlank(message = "Bạn phải nhập nội dung bình luận")
     @Lob
     private String content;
 
     private int status;
 
     @Column(name = "story_id")
-    private BigInteger storyId;
+    private Long storyId;
 
     @Column(name = "user_id")
-    private BigInteger userId;
+    private Long userId;
 
     public StoryComment() {
     }
@@ -67,19 +68,19 @@ public class StoryComment implements Serializable {
         this.status = status;
     }
 
-    public BigInteger getStoryId() {
+    public Long getStoryId() {
         return this.storyId;
     }
 
-    public void setStoryId(BigInteger storyId) {
+    public void setStoryId(Long storyId) {
         this.storyId = storyId;
     }
 
-    public BigInteger getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(BigInteger userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
