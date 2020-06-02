@@ -17,7 +17,7 @@ import com.backend.template.service.StoryService;
 import com.backend.template.validators.StoryValidator;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/story")
 public class StoryController extends BaseController {
 
     private static final Logger logger = LogManager.getLogger(StoryController.class);
@@ -31,13 +31,13 @@ public class StoryController extends BaseController {
     @Autowired
     StoryValidator storyValidator;
 
-    @PostMapping("/story")
+    @PostMapping("/create")
     public ResponseEntity<?> createStory(@RequestBody CreateStoryInput createStoryInput) {
         storyValidator.validateCreateStory(createStoryInput);
         return responseFactory.success(storyService.createStory(getUserBasicInfo(), createStoryInput));
     }
 
-    @PutMapping("/story/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStory(@RequestBody CreateStoryInput createStoryInput, @PathVariable Long id) {
         storyValidator.validateCreateStory(createStoryInput);
         return responseFactory.success(storyService.updateStory(getUserBasicInfo(), createStoryInput, id));
