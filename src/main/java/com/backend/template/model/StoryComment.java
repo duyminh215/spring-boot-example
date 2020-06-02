@@ -19,7 +19,7 @@ public class StoryComment implements Serializable {
     private String id;
 
     @Column(name = "commented_time")
-    private BigInteger commentedTime;
+    private Long commentedTime;
 
     @Lob
     private String content;
@@ -43,11 +43,11 @@ public class StoryComment implements Serializable {
         this.id = id;
     }
 
-    public BigInteger getCommentedTime() {
+    public Long getCommentedTime() {
         return this.commentedTime;
     }
 
-    public void setCommentedTime(BigInteger commentedTime) {
+    public void setCommentedTime(Long commentedTime) {
         this.commentedTime = commentedTime;
     }
 
