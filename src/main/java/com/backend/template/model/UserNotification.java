@@ -16,7 +16,7 @@ public class UserNotification implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     private String body;
 
@@ -63,11 +63,11 @@ public class UserNotification implements Serializable {
     public UserNotification() {
     }
 
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
