@@ -1,5 +1,6 @@
 package com.backend.template.service;
 
+import com.backend.template.controller.BaseController;
 import com.backend.template.dto.input.UpdateStoryComment;
 import com.backend.template.dto.response.PageResponseBuilder;
 import com.backend.template.exception.RecordNotFoundException;
@@ -7,22 +8,20 @@ import com.backend.template.locale.Translator;
 import com.backend.template.model.StoryComment;
 import com.backend.template.paging.PagingInfo;
 import com.backend.template.repositories.StoryCommentRepository;
+import com.backend.template.repositories.UserRepository;
 import com.backend.template.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class StoryCommentService {
     @Autowired
     StoryCommentRepository storyCommentRepository;
 
-    public PagingInfo<StoryComment> getAllStoryComments(Integer page, Integer size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+    public PagingInfo<StoryComment> getAllStoryComments(Pageable pageable) {
         Page<StoryComment> storyComments = storyCommentRepository.findAll(pageable);
         return PageResponseBuilder.buildPagingData(storyComments, storyComments.getPageable());
     }
