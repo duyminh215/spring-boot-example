@@ -1,6 +1,5 @@
 package com.backend.template.controller;
 
-import com.backend.template.repositories.FollowingRepository;
 import com.backend.template.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,21 +14,25 @@ import org.springframework.web.bind.annotation.*;
  * @since 02/06/2020
  */
 @RestController
-@RequestMapping("/follow")
-public class FollowController {
+@RequestMapping("/follower")
+public class FollowController extends BaseController {
     @Autowired
     private FollowService followService;
-    @GetMapping("/get-following-user-list")
+
+    @GetMapping("/following-list")
     public ResponseEntity<?> getFollowingUserList(){
-        return ResponseEntity.ok(followService.getFollowingUserList());
+
+        return ResponseEntity.ok(followService.getFollowingUserList(getLoginedUser().getId()));
     }
-    @GetMapping("/get-follower")
+    @GetMapping("/follower-list")
     public ResponseEntity<?> getFollowerList(){
-        return ResponseEntity.ok(followService.getFollower());
+
+        return ResponseEntity.ok(followService.getFollower(getLoginedUser().getId()));
     }
 
-    @PostMapping()
+    @PostMapping("/following")
     public ResponseEntity<?> followUser(@RequestParam("followid")long followId){
-        return ResponseEntity.ok(followService.followUser(followId));
+
+        return ResponseEntity.ok(followService.followUser(getLoginedUser().getId(),followId));
     }
  }

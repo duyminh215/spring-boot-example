@@ -23,10 +23,10 @@ import java.util.Optional;
 @Repository
 public interface FollowingRepository extends JpaRepository<Following, String> {
 
-        @Query(value = "select u.full_name as fullName , u.email as email from social.following as f inner join social.user as u on f.following_user_id = u.id and f.user_id = :id",nativeQuery = true)
+        @Query(value = "select u.full_name as fullName , u.email as email from social.following as f inner join social.user as u on f.following_user_id = u.id and f.user_id = :id and f.status = 1",nativeQuery = true)
         List<FollowerDto> getFollowingUserList(@Param("id") long id);
 
-        @Query(value ="select u.full_name as fullName, u.email as email from social.following as f inner join social.user as u on f.user_id = u.id and f.following_user_id = :id",nativeQuery = true)
+        @Query(value ="select u.full_name as fullName, u.email as email from social.following as f inner join social.user as u on f.user_id = u.id and f.following_user_id = :id and f.status = 1",nativeQuery = true)
         List<FollowerDto> getFollowerList(@Param("id") long id);
 
         Optional<Following>  findByUserIdAndFollowingUserId(BigInteger userId, BigInteger followingUserId);
