@@ -30,13 +30,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfiguration {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String DEFAULT_INCLUDE_PATTERN = "/mobile-money/.*";
+    public static final String DEFAULT_INCLUDE_PATTERN = "/social/.*";
     private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("com.viettel.mobilemoney.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.backend.template.controller"))
                 .paths(PathSelectors.regex("/.*")).build().apiInfo(apiEndPointsInfo())
                 .directModelSubstitute(Timestamp.class, Date.class)
                 .securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()))
@@ -45,8 +45,8 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Mobile money 2.0").description("Mobile money 2.0")
-                .contact(new Contact("Mobile money 2.0 ", "https://digital.viettel.vn", "thanhnd59@viettel.com.vn"))
+        return new ApiInfoBuilder().title("Social").description("Social")
+                .contact(new Contact("Social ", "https://social.vn", "minhnd3@smartosc.com"))
                 .version("1.0.0").build();
     }
 

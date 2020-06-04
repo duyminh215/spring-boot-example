@@ -42,13 +42,13 @@ public class StoryController extends BaseController {
     @Autowired
     StoryValidator storyValidator;
 
-    @PostMapping("/story")
+    @PostMapping("/create")
     public ResponseEntity<?> createStory(@RequestBody CreateStoryInput createStoryInput) {
         storyValidator.validateCreateStory(createStoryInput);
         return responseFactory.success(storyService.createStory(getUserBasicInfo(), createStoryInput));
     }
 
-    @PutMapping("/story/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStory(@RequestBody CreateStoryInput createStoryInput, @PathVariable Long id) {
         storyValidator.validateCreateStory(createStoryInput);
         return responseFactory.success(storyService.updateStory(getUserBasicInfo(), createStoryInput, id));

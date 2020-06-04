@@ -18,7 +18,7 @@ import com.backend.template.model.response.ResponseFactory;
 import com.backend.template.service.UserServiceImpl;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
     private static final Logger logger = LogManager.getLogger(UserController.class);
@@ -29,17 +29,17 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<User> listUser() {
         return userService.findAll();
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public User create(@RequestBody User user) {
         return userService.save(user);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable(value = "id") Long id) {
         userService.delete(id);
         return "success";
