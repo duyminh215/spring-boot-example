@@ -7,16 +7,16 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class UpdateStoryComment {
-
-    private String id;
+public class CreateStoryComment {
 
     @NotBlank(message = "Bạn phải nhập nội dung bình luận")
     private String content;
 
     private int status;
+
+    private long storyId;
 }

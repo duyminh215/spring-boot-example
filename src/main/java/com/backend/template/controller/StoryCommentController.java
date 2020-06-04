@@ -1,7 +1,7 @@
 package com.backend.template.controller;
 
+import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
-import com.backend.template.model.StoryComment;
 import com.backend.template.model.response.ResponseFactory;
 import com.backend.template.service.StoryCommentService;
 import com.backend.template.utils.Utils;
@@ -37,13 +37,12 @@ public class StoryCommentController extends BaseController{
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createStoryComment(@Valid @RequestBody StoryComment storyComment) {
-        storyComment.setUserId(getLoginedUser().getId());
-        return responseFactory.success(storyCommentService.createStoryComment(storyComment));
+    public ResponseEntity<?> createStoryComment(@Valid @RequestBody CreateStoryComment createStoryComment) {
+        return responseFactory.success(storyCommentService.createStoryComment(createStoryComment));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStoryComment(@Valid @RequestBody UpdateStoryComment updateStoryComment, @PathVariable String id) {
-        return responseFactory.success(storyCommentService.updateStoryComment(updateStoryComment, id));
+    @PutMapping("/update")
+    public ResponseEntity<?> updateStoryComment(@Valid @RequestBody UpdateStoryComment updateStoryComment) {
+        return responseFactory.success(storyCommentService.updateStoryComment(updateStoryComment));
     }
 }

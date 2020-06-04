@@ -1,7 +1,10 @@
 package com.backend.template.service;
 
+import com.backend.template.controller.BaseController;
+import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
 import com.backend.template.model.StoryComment;
+import com.backend.template.model.User;
 import com.backend.template.paging.PagingInfo;
 import com.backend.template.repositories.StoryCommentRepository;
 import org.junit.Before;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,6 +30,9 @@ public class StoryCommentServiceTest {
 
     @Mock
     private StoryCommentRepository storyCommentRepository;
+
+    @Mock
+    BaseController baseController;
 
     @InjectMocks
     private StoryCommentService storyCommentService;
@@ -36,8 +43,13 @@ public class StoryCommentServiceTest {
 
     private UpdateStoryComment updateStoryComment;
 
+    private CreateStoryComment createStoryComment;
+
+    private User user;
+
     @Before
     public void setUp() throws Exception {
+
         storyCommentList = new ArrayList<>();
         storyCommentList.add(new StoryComment("1", 1224146L, "Hello", 1, 1L, 1L));
         storyCommentList.add(new StoryComment("2", 1222654L, "Goodbye", 1, 1L, 1L));
@@ -46,6 +58,16 @@ public class StoryCommentServiceTest {
         storyCommentList.add(new StoryComment("5", 1255445L, "How are you?", 1, 1L, 1L));
 
         storyComment = new StoryComment("6", 1224146L, "I'm fine", 1, 1L, 1L);
+
+        user = new User();
+        user.setId(1L);
+        user.setFullName("Duy Minh");
+        user.setEmail("duyminh215@gmail.com");
+        user.setPassword("password");
+
+        when(baseController.getLoginedUser()).thenReturn(user);
+        when(storyCommentRepository.findById("6")).thenReturn(Optional.of(storyComment));
+        when(storyCommentRepository.save(any(StoryComment.class))).thenReturn(storyComment);
     }
 
     @Test
@@ -54,8 +76,9 @@ public class StoryCommentServiceTest {
         String sort = "id";
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<StoryComment> commentPage = new PageImpl<>(storyCommentList, pageable, storyCommentList.size());
-        when(storyCommentRepository.findAll(pageable)).thenReturn(commentPage);
-        PagingInfo<StoryComment> actual = storyCommentService.getAllStoryComments(page,size, sort);
+        when(storyCommentRepository.findAll(any(Pageable.class))).thenReturn(commentPage);
+
+        PagingInfo<StoryComment> actual = storyCommentService.getAllStoryComments(pageable);
         assertEquals(actual.getContents().size(), 5);
     }
 
@@ -68,18 +91,15 @@ public class StoryCommentServiceTest {
 
     @Test
     public void createStoryComment() {
-        when(storyCommentRepository.save(storyComment)).thenReturn(storyComment);
-        StoryComment actual = storyCommentService.createStoryComment(storyComment);
-        assertEquals(storyComment.getId(), actual.getId());
+        createStoryComment = new CreateStoryComment("I'm fine", 1, 1L);
+        StoryComment actual = storyCommentService.createStoryComment(createStoryComment);
+        assertEquals(createStoryComment.getStoryId(), actual.getStoryId());
     }
 
     @Test
     public void updateStoryComment() {
-        updateStoryComment = new UpdateStoryComment("Xin chào", 1);
-        StoryComment storyComment = new StoryComment("1", 1224146L, "Hello", 1, 1L, 1L);
-        when(storyCommentRepository.findById("1")).thenReturn(Optional.of(storyComment));
-        when(storyCommentRepository.save(storyComment)).thenReturn(storyComment);
-        StoryComment actual = storyCommentService.updateStoryComment(updateStoryComment,"1");
+        updateStoryComment = new UpdateStoryComment("6","I'm fine", 1);
+        StoryComment actual = storyCommentService.updateStoryComment(updateStoryComment);
         assertEquals(storyComment.getId(), actual.getId());
     }
 }

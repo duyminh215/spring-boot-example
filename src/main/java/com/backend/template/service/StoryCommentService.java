@@ -1,15 +1,17 @@
 package com.backend.template.service;
 
 import com.backend.template.controller.BaseController;
+import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
 import com.backend.template.dto.response.PageResponseBuilder;
 import com.backend.template.exception.RecordNotFoundException;
+import com.backend.template.exception.RequestInvalidException;
 import com.backend.template.locale.Translator;
 import com.backend.template.model.StoryComment;
 import com.backend.template.paging.PagingInfo;
 import com.backend.template.repositories.StoryCommentRepository;
-import com.backend.template.repositories.UserRepository;
 import com.backend.template.utils.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StoryCommentService {
+
     @Autowired
     StoryCommentRepository storyCommentRepository;
+
+    ModelMapper mapper = new ModelMapper();
+
+    BaseController baseController = new BaseController();
 
     public PagingInfo<StoryComment> getAllStoryComments(Pageable pageable) {
         Page<StoryComment> storyComments = storyCommentRepository.findAll(pageable);
@@ -31,15 +38,19 @@ public class StoryCommentService {
                 -> new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found")));
     }
 
-    public StoryComment createStoryComment(StoryComment storyComment) {
+    public StoryComment createStoryComment(CreateStoryComment createStoryComment) {
+        StoryComment storyComment = mapper.map(createStoryComment, StoryComment.class);
         storyComment.setCommentedTime(Utils.getUnixTimeInSecond());
+        storyComment.setUserId(baseController.getLoginedUser().getId());
         return storyCommentRepository.save(storyComment);
     }
 
-    public StoryComment updateStoryComment(UpdateStoryComment updateStoryComment, String id) {
-        StoryComment storyComment = storyCommentRepository.findById(id).orElseThrow(()
+    public StoryComment updateStoryComment(UpdateStoryComment updateStoryComment) {
+        StoryComment storyComment = storyCommentRepository.findById(updateStoryComment.getId()).orElseThrow(()
                 -> new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found")));
-
+        if(storyComment.getUserId() != baseController.getLoginedUser().getId()){
+            throw new RequestInvalidException(Translator.toLocale("error.msg.request.invalid"));
+        }
         storyComment.setContent(updateStoryComment.getContent());
         storyComment.setStatus(updateStoryComment.getStatus());
 

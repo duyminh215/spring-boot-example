@@ -26,17 +26,16 @@ public class StoryComment implements Serializable {
     private String id;
 
     @Column(name = "commented_time")
-    private Long commentedTime;
+    private long commentedTime;
 
-    @NotBlank(message = "Bạn phải nhập nội dung bình luận")
     @Lob
     private String content;
 
     private int status;
 
     @Column(name = "story_id")
-    private Long storyId;
+    private long storyId;
 
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
 }
