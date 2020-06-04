@@ -26,8 +26,6 @@ public class StoryCommentService {
 
     ModelMapper mapper = new ModelMapper();
 
-    BaseController baseController = new BaseController();
-
     public PagingInfo<StoryComment> getAllStoryComments(Pageable pageable) {
         Page<StoryComment> storyComments = storyCommentRepository.findAll(pageable);
         return PageResponseBuilder.buildPagingData(storyComments, storyComments.getPageable());
@@ -38,17 +36,17 @@ public class StoryCommentService {
                 -> new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found")));
     }
 
-    public StoryComment createStoryComment(CreateStoryComment createStoryComment) {
+    public StoryComment createStoryComment(CreateStoryComment createStoryComment, Long userId) {
         StoryComment storyComment = mapper.map(createStoryComment, StoryComment.class);
         storyComment.setCommentedTime(Utils.getUnixTimeInSecond());
-        storyComment.setUserId(baseController.getLoginedUser().getId());
+        storyComment.setUserId(userId);
         return storyCommentRepository.save(storyComment);
     }
 
-    public StoryComment updateStoryComment(UpdateStoryComment updateStoryComment) {
+    public StoryComment updateStoryComment(UpdateStoryComment updateStoryComment, Long userId) {
         StoryComment storyComment = storyCommentRepository.findById(updateStoryComment.getId()).orElseThrow(()
                 -> new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found")));
-        if(storyComment.getUserId() != baseController.getLoginedUser().getId()){
+        if(storyComment.getUserId() != userId){
             throw new RequestInvalidException(Translator.toLocale("error.msg.request.invalid"));
         }
         storyComment.setContent(updateStoryComment.getContent());

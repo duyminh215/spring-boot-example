@@ -23,7 +23,7 @@ public class StoryCommentController extends BaseController{
     @Autowired
     StoryCommentService storyCommentService;
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<?> getAllStoryComments(@RequestParam(defaultValue = "0", required = false) Integer page,
                                                  @RequestParam(defaultValue = "10", required = false) Integer size,
                                                  @RequestParam(defaultValue = "id", required = false) String sort) {
@@ -38,11 +38,11 @@ public class StoryCommentController extends BaseController{
 
     @PostMapping("/create")
     public ResponseEntity<?> createStoryComment(@Valid @RequestBody CreateStoryComment createStoryComment) {
-        return responseFactory.success(storyCommentService.createStoryComment(createStoryComment));
+        return responseFactory.success(storyCommentService.createStoryComment(createStoryComment, getLoginedUser().getId()));
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateStoryComment(@Valid @RequestBody UpdateStoryComment updateStoryComment) {
-        return responseFactory.success(storyCommentService.updateStoryComment(updateStoryComment));
+        return responseFactory.success(storyCommentService.updateStoryComment(updateStoryComment, getLoginedUser().getId()));
     }
 }

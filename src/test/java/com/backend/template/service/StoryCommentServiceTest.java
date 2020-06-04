@@ -45,8 +45,6 @@ public class StoryCommentServiceTest {
 
     private CreateStoryComment createStoryComment;
 
-    private User user;
-
     @Before
     public void setUp() throws Exception {
 
@@ -59,13 +57,6 @@ public class StoryCommentServiceTest {
 
         storyComment = new StoryComment("6", 1224146L, "I'm fine", 1, 1L, 1L);
 
-        user = new User();
-        user.setId(1L);
-        user.setFullName("Duy Minh");
-        user.setEmail("duyminh215@gmail.com");
-        user.setPassword("password");
-
-        when(baseController.getLoginedUser()).thenReturn(user);
         when(storyCommentRepository.findById("6")).thenReturn(Optional.of(storyComment));
         when(storyCommentRepository.save(any(StoryComment.class))).thenReturn(storyComment);
     }
@@ -92,14 +83,14 @@ public class StoryCommentServiceTest {
     @Test
     public void createStoryComment() {
         createStoryComment = new CreateStoryComment("I'm fine", 1, 1L);
-        StoryComment actual = storyCommentService.createStoryComment(createStoryComment);
+        StoryComment actual = storyCommentService.createStoryComment(createStoryComment, 1L);
         assertEquals(createStoryComment.getStoryId(), actual.getStoryId());
     }
 
     @Test
     public void updateStoryComment() {
         updateStoryComment = new UpdateStoryComment("6","I'm fine", 1);
-        StoryComment actual = storyCommentService.updateStoryComment(updateStoryComment);
+        StoryComment actual = storyCommentService.updateStoryComment(updateStoryComment, 1L);
         assertEquals(storyComment.getId(), actual.getId());
     }
 }
