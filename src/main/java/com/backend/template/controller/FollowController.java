@@ -19,18 +19,17 @@ import org.springframework.web.bind.annotation.*;
 public class FollowController {
     @Autowired
     private FollowService followService;
-    @GetMapping("/get-following-user-list/{id}")
-    public ResponseEntity<?> getFollowingUserList(@PathVariable int id){
-        return ResponseEntity.ok(followService.getFollowingUserList(id));
+    @GetMapping("/get-following-user-list")
+    public ResponseEntity<?> getFollowingUserList(){
+        return ResponseEntity.ok(followService.getFollowingUserList());
     }
-    @GetMapping("/get-follower/{id}")
-    public ResponseEntity<?> getFollowerList(@PathVariable int id){
-        return ResponseEntity.ok(followService.getFollower(id));
+    @GetMapping("/get-follower")
+    public ResponseEntity<?> getFollowerList(){
+        return ResponseEntity.ok(followService.getFollower());
     }
-    @PostMapping("")
-    public ResponseEntity<?> followUser(@RequestParam("userid") int userid , @RequestParam("followinguserid") int followinguserid
-    ){
-                
-        return null;
+
+    @PostMapping()
+    public ResponseEntity<?> followUser(@RequestParam("followid")long followId){
+        return ResponseEntity.ok(followService.followUser(followId));
     }
  }

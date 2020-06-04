@@ -18,6 +18,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.backend.template.locale.Translator;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler implements ResponseErrorHandler {
 
     private static final Logger logger = LogManager.getLogger(CustomExceptionHandler.class);
@@ -46,6 +47,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
         ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error", details);
         logger.error(ex.getMessage());
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
+    }
+    @ExceptionHandler(DuplicateException.class)
+    public final ResponseEntity<Object> handleDuplicateException(DuplicateException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),Translator.toLocale("error.msg.follow_user.existed"),details);
+        logger.error(ex.getMessage());
+        return new ResponseEntity(error , HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RecordNotFoundException.class)
