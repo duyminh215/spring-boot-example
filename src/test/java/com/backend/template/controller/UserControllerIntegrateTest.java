@@ -36,7 +36,7 @@ public class UserControllerIntegrateTest {
     public void testSignUpWithEmptyFullName() throws Exception {
         CreateUserInput createUserInput = new CreateUserInput("", "duyminh215@gmail.com", "", "123456");
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/sign-up").contentType(MediaType.APPLICATION_JSON).content(asJsonString(createUserInput)))
+                MockMvcRequestBuilders.post("/user/sign-up").contentType(MediaType.APPLICATION_JSON).content(asJsonString(createUserInput)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Full name is empty")));
 
