@@ -41,6 +41,9 @@ public class FollowService {
 
 
     public String followUser(long userId , long followId) {
+        if(userId == followId){
+            throw new DuplicateException("Duplicate Id");
+        }
         Optional<Following> following = followingRepository.findByUserIdAndFollowingUserId(BigInteger.valueOf(userId),BigInteger.valueOf(followId));
         if(following.isPresent()){
            return checkFollowingExisted(following.get());
