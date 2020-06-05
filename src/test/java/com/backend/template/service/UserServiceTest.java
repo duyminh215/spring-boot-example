@@ -1,5 +1,6 @@
 package com.backend.template.service;
 
+import com.backend.template.dto.input.UpdateUserInput;
 import com.backend.template.dto.output.UserDto;
 import com.backend.template.model.User;
 import com.backend.template.repositories.UserRepository;
@@ -34,6 +35,8 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    private UpdateUserInput updateUserInput;
 
     private User user;
 
@@ -105,8 +108,8 @@ public class UserServiceTest {
         users = new ArrayList<>();
         users.add(new User("hien@gmail.com","hien","0969708715"));
 
-//        user = new User("vuhien@gmail.com","hien","0969708712");
-//        user.setId(1L);
+        user = new User("vuhien@gmail.com","hien","0969708712");
+        user.setId(1L);
 //        when(userRepository.findById(1l)).thenReturn(Optional.of(user));
     }
 
@@ -119,6 +122,9 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUser(){
-
+        when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+        updateUserInput = new UpdateUserInput("aa","0969708714",2313l);
+        UserDto actual = userService.updateUser(updateUserInput,1l);
+        assertEquals(actual.getId(),1l);
     }
 }
