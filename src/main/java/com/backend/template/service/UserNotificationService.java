@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserNotificationService {
-    PagingInfo<UserNotification> getAllNotice(long userId, PageRequest pageable);
+    PagingInfo<UserNotification> getAllNotice(PageRequest pageable);
 }

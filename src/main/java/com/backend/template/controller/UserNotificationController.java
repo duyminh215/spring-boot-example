@@ -29,6 +29,6 @@ public class UserNotificationController extends BaseController{
                                           @RequestParam(defaultValue = "10") Integer size,
                                           @RequestParam(defaultValue = "") String sort) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Utils.getOrderFieldsOfRequest(sort)));
-        return responseFactory.success(userNotificationService.getAllNotice(getLoginedUser().getId(), pageable));
+        return responseFactory.success(userNotificationService.getAllNotice(pageable));
     }
 }
