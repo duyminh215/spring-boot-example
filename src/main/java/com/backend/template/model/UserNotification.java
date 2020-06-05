@@ -1,5 +1,7 @@
 package com.backend.template.model;
 
+import lombok.AllArgsConstructor;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -11,6 +13,7 @@ import java.math.BigInteger;
 @Entity
 @Table(name = "user_notification")
 @NamedQuery(name = "UserNotification.findAll", query = "SELECT u FROM UserNotification u")
+@AllArgsConstructor
 public class UserNotification implements Serializable {
     private static final long serialVersionUID = 1L;
 

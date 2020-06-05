@@ -25,9 +25,9 @@ public class UserNotificationController extends BaseController{
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllNotice(@RequestParam(defaultValue = "0") Integer page,
-                                          @RequestParam(defaultValue = "10") Integer size,
-                                          @RequestParam(defaultValue = "") String sort) {
+    public ResponseEntity<?> getAllNotice(@RequestParam(defaultValue = "0", required = false) Integer page,
+                                          @RequestParam(defaultValue = "10", required = false) Integer size,
+                                          @RequestParam(defaultValue = "", required = false) String sort) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Utils.getOrderFieldsOfRequest(sort)));
         return responseFactory.success(userNotificationService.getAllNotice(pageable));
     }

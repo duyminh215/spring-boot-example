@@ -29,6 +29,6 @@ public class UserNotificationServiceImpl implements UserNotificationService {
         return PageResponseBuilder.buildPagingData(userNotificationRepository
                 .findAll(Specification
                         .where(UserNotificationSpecification
-                                .equality(UserNotification_.USER_ID, serviceAuth.getLoggedUser().getId())), pageable), pageable);
+                                    .equality(UserNotification_.USER_ID, serviceAuth.getLoggedUser().getId())), pageable), pageable);
     }
 }
