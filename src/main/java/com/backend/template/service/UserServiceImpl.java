@@ -2,7 +2,12 @@ package com.backend.template.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import com.backend.template.dto.input.UpdateUserInput;
+import com.backend.template.exception.RecordNotFoundException;
+import com.backend.template.utils.ConvertUtils;
+import com.backend.template.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,6 +66,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User save(User user) {
         // TODO Auto-generated method stub
         return userRepository.save(user);
+    }
+
+    @Override
+    public UserDto updateUser(UpdateUserInput updateUserInput,long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
+            throw new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found"));
+        }
+        User updateUser = ConvertUtils.toUser(user.get(),updateUserInput,id);
+        userRepository.save(updateUser);
+        return createDto(updateUser);
+    }
+
+    @Override
+    public UserDto getUserById(long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
+            throw new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found"));
+        }
+        return createDto(user.get());
     }
 
     @Override

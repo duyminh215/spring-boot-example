@@ -1,10 +1,13 @@
 package com.backend.template.service;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import com.backend.template.dto.output.UserDto;
+import com.backend.template.model.User;
+import com.backend.template.repositories.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,13 +15,31 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.backend.template.dto.input.CreateUserInput;
 import com.backend.template.exception.RequestInvalidException;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceTest {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
-    
+
+    @InjectMocks
+    private UserServiceImpl userService;
+
+    @Mock
+    private UserRepository userRepository;
+
+    private User user;
+
+    private List<User> users;
+
+
     @Test
     public void testSignUpEmptyFullName() {
         CreateUserInput createUserInput = new CreateUserInput("", "nguyenvana1111@gmail.com", null, "123456");
@@ -79,4 +100,25 @@ public class UserServiceTest {
         }
     }
 
+    @Before
+    public void setUp(){
+        users = new ArrayList<>();
+        users.add(new User("hien@gmail.com","hien","0969708715"));
+
+//        user = new User("vuhien@gmail.com","hien","0969708712");
+//        user.setId(1L);
+//        when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+    }
+
+    @Test
+    public void testGetUserById(){
+        when(userRepository.findById(1l)).thenReturn(Optional.of(users.get(0)));
+        UserDto actual  = userService.getUserById(1l);
+        assertEquals(actual.getEmail(),"hien@gmail.com");
+    }
+
+    @Test
+    public void testUpdateUser(){
+
+    }
 }

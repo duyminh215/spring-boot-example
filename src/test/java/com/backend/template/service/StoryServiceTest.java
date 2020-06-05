@@ -52,7 +52,7 @@ public class StoryServiceTest {
 			UserStory userStory = new UserStory();
 			userStory.setUserId(1L);
 			userStory.setId(testId);
-			userStory.setId(testId);
+//			userStory.setId(testId);
 			Optional<UserStory> userStoryOptional = Optional.of(userStory);
 			return userStoryOptional;
 		}).when(mockUserStoryRepository).findById(testId);
