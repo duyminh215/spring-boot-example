@@ -1,5 +1,7 @@
 package com.backend.template.controller;
 
+import com.backend.template.dto.input.UpdateUserInput;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,6 +35,10 @@ public class UserControllerTest {
 
     @Autowired
     private ResponseFactory responseFactory;
+
+
+//    @InjectMocks
+//    private UserController userController;
     
     @Test
     public void testSignUpSuccess() throws Exception {
@@ -56,5 +62,20 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Full name is empty")));
 
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        UserDto userDto = new UserDto();
+        userDto.setId(1l);
+        userDto.setFullName("a");
+        userDto.setPhone("0969708715");
+        String bodyJson = "{\"fullName\":\"a\",\"phone\":\"0969708715\"}";
+       when(this.userService.updateUser(Mockito.any(UpdateUserInput.class),anyLong())).thenReturn(userDto);
+       mockMvc.perform(
+               MockMvcRequestBuilders.put("/user/update").contentType(MediaType.APPLICATION_JSON).content(bodyJson)
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzb3VyY2VfaWQiXSwidXNlcl9uYW1lIjoiMSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTU5MTM0ODc1OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiI0NjA5NmIxZC1lMDk0LTQyZTUtOWUxNC04MWNmZGRjNjk5ZWIiLCJjbGllbnRfaWQiOiJkZXZnbGFuLWNsaWVudCJ9.NwAFYxRiBfpjoZtTAgyp0YLBCgULu0kucbRVQNxHNu4"))
+               .andExpect(MockMvcResultMatchers.status().isOk())
+               .andExpect(MockMvcResultMatchers.jsonPath("$.data.fullName", Matchers.is("a")));
     }
 }

@@ -122,9 +122,9 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUser(){
-        when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+//        when(userRepository.findById(1l)).thenReturn(Optional.of(user));
         updateUserInput = new UpdateUserInput("aa","0969708714",2313l);
-        UserDto actual = userService.updateUser(updateUserInput,1l);
-        assertEquals(actual.getId(),1l);
+        UserDto actual = userServiceImpl.updateUser(updateUserInput,1);
+        assertEquals(user.getId(),actual.getId());
     }
 }
