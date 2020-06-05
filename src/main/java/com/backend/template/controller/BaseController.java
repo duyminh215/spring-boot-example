@@ -31,6 +31,15 @@ public class BaseController {
         return loginedUser;
     }
 
+    public long getUserId(){
+        long userId = 0;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (isLoginedUser()) {
+            userId = Long.parseLong(authentication.getName());
+        }
+        return userId;
+    }
+
     private boolean isLoginedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {

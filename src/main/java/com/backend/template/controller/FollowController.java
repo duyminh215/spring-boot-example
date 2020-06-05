@@ -22,15 +22,15 @@ public class FollowController extends BaseController {
     @GetMapping("/following-list")
     public ResponseEntity<?> getFollowingUserList(){
 
-        return ResponseEntity.ok(followService.getFollowingUserList(getLoginedUser().getId()));
+        return ResponseEntity.ok(followService.getFollowingUserList(getUserId()));
     }
     @GetMapping("/follower-list")
     public ResponseEntity<?> getFollowerList(){
-        return ResponseEntity.ok(followService.getFollower(getLoginedUser().getId()));
+        return ResponseEntity.ok(followService.getFollower(getUserId()));
     }
 
     @PostMapping("/following")
     public ResponseEntity<?> followUser(@RequestParam("followid")long followId){
-        return ResponseEntity.ok(followService.followUser(getLoginedUser().getId(),followId));
+        return ResponseEntity.ok(followService.followUser(getUserId(),followId));
     }
  }
