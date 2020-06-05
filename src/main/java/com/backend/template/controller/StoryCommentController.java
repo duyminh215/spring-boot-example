@@ -3,6 +3,7 @@ package com.backend.template.controller;
 import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
 import com.backend.template.model.response.ResponseFactory;
+import com.backend.template.repositories.UserStoryRepository;
 import com.backend.template.service.StoryCommentService;
 import com.backend.template.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.backend.template.service;
 
-import com.backend.template.controller.BaseController;
 import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
 import com.backend.template.dto.response.PageResponseBuilder;
@@ -10,6 +9,7 @@ import com.backend.template.locale.Translator;
 import com.backend.template.model.StoryComment;
 import com.backend.template.paging.PagingInfo;
 import com.backend.template.repositories.StoryCommentRepository;
+import com.backend.template.repositories.UserStoryRepository;
 import com.backend.template.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,9 @@ public class StoryCommentService {
     @Autowired
     StoryCommentRepository storyCommentRepository;
 
+    @Autowired
+    private UserStoryRepository userStoryRepository;
+
     ModelMapper mapper = new ModelMapper();
 
     public PagingInfo<StoryComment> getAllStoryComments(Pageable pageable) {
@@ -37,6 +40,8 @@ public class StoryCommentService {
     }
 
     public StoryComment createStoryComment(CreateStoryComment createStoryComment, Long userId) {
+        if(!userStoryRepository.findById(createStoryComment.getStoryId()).isPresent())
+            throw new RecordNotFoundException(Translator.toLocale("error.msg.story.not_found"));
         StoryComment storyComment = mapper.map(createStoryComment, StoryComment.class);
         storyComment.setCommentedTime(Utils.getUnixTimeInSecond());
         storyComment.setUserId(userId);
