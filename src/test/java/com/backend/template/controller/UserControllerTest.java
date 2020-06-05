@@ -1,7 +1,8 @@
 package com.backend.template.controller;
 
 import com.backend.template.dto.input.UpdateUserInput;
-import org.mockito.InjectMocks;
+import com.backend.template.model.User;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,14 +37,13 @@ public class UserControllerTest {
     @Autowired
     private ResponseFactory responseFactory;
 
-
-//    @InjectMocks
-//    private UserController userController;
+    @Mock
+    private BaseController baseController;
     
     @Test
     public void testSignUpSuccess() throws Exception {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setId(1l);
         String bodyJson = "{\"fullName\":\"Nguyễn Duy Minh\",\"email\":\"duyminh215990@gmail.com\",\"phone\":\"\", \"password\": \"123456\"}";
         when(this.userService.signUpByEmailOrPhone(Mockito.any(CreateUserInput.class))).thenReturn(userDto);
         mockMvc.perform(
@@ -74,8 +74,26 @@ public class UserControllerTest {
        when(this.userService.updateUser(Mockito.any(UpdateUserInput.class),anyLong())).thenReturn(userDto);
        mockMvc.perform(
                MockMvcRequestBuilders.put("/user/update").contentType(MediaType.APPLICATION_JSON).content(bodyJson)
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzb3VyY2VfaWQiXSwidXNlcl9uYW1lIjoiMSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTU5MTM0ODc1OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiI0NjA5NmIxZC1lMDk0LTQyZTUtOWUxNC04MWNmZGRjNjk5ZWIiLCJjbGllbnRfaWQiOiJkZXZnbGFuLWNsaWVudCJ9.NwAFYxRiBfpjoZtTAgyp0YLBCgULu0kucbRVQNxHNu4"))
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzb3VyY2VfaWQiXSwidXNlcl9uYW1lIjoiMSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTU5MTM1NzQ1NCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJjMjhmYjBiZC1hNmU1LTQ3YTItOWZjNy03NThmODZhOGNiZjEiLCJjbGllbnRfaWQiOiJkZXZnbGFuLWNsaWVudCJ9.kV3SvcotkmBxe_6OTxQWLcu1IGRac5Z504zq2beG4WQ"))
                .andExpect(MockMvcResultMatchers.status().isOk())
                .andExpect(MockMvcResultMatchers.jsonPath("$.data.fullName", Matchers.is("a")));
+    }
+
+    @Test
+    public void testGetUserById() throws Exception {
+        UserDto userDto = new UserDto();
+        userDto.setId(1l);
+        User user = new User();
+//        user.setId(1L);
+//        user.setFullName("Duy Minh");
+//        user.setEmail("duyminh215@gmail.com");
+//        user.setPassword("password");
+        when(baseController.getLoginedUser()).thenReturn(user);
+        when(userService.getUserById(anyLong())).thenReturn(userDto);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/user/details")
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzb3VyY2VfaWQiXSwidXNlcl9uYW1lIjoiMSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTU5MTM1NzQ1NCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJjMjhmYjBiZC1hNmU1LTQ3YTItOWZjNy03NThmODZhOGNiZjEiLCJjbGllbnRfaWQiOiJkZXZnbGFuLWNsaWVudCJ9.kV3SvcotkmBxe_6OTxQWLcu1IGRac5Z504zq2beG4WQ"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.id", Matchers.is(1)));
     }
 }
