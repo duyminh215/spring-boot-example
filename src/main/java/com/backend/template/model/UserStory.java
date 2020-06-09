@@ -5,11 +5,13 @@ import javax.persistence.*;
 
 import com.backend.template.constant.StoryStatuses;
 import com.backend.template.utils.Utils;
+import lombok.Setter;
 
 /**
  * The persistent class for the user_story database table.
  * 
  */
+@Setter
 @Entity
 @Table(name = "user_story")
 @NamedQuery(name = "UserStory.findAll", query = "SELECT u FROM UserStory u")

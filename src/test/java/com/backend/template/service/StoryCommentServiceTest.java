@@ -1,12 +1,13 @@
 package com.backend.template.service;
 
-import com.backend.template.controller.BaseController;
 import com.backend.template.dto.input.CreateStoryComment;
 import com.backend.template.dto.input.UpdateStoryComment;
+import com.backend.template.exception.RecordNotFoundException;
 import com.backend.template.model.StoryComment;
-import com.backend.template.model.User;
+import com.backend.template.model.UserStory;
 import com.backend.template.paging.PagingInfo;
 import com.backend.template.repositories.StoryCommentRepository;
+import com.backend.template.repositories.UserStoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,7 +34,7 @@ public class StoryCommentServiceTest {
     private StoryCommentRepository storyCommentRepository;
 
     @Mock
-    BaseController baseController;
+    private UserStoryRepository userStoryRepository;
 
     @InjectMocks
     private StoryCommentService storyCommentService;
@@ -56,7 +58,10 @@ public class StoryCommentServiceTest {
         storyCommentList.add(new StoryComment("5", 1255445L, "How are you?", 1, 1L, 1L));
 
         storyComment = new StoryComment("6", 1224146L, "I'm fine", 1, 1L, 1L);
+        UserStory userStory = new UserStory();
+        userStory.setId(1L);
 
+        when(userStoryRepository.findById(anyLong())).thenReturn(Optional.of(userStory));
         when(storyCommentRepository.findById("6")).thenReturn(Optional.of(storyComment));
         when(storyCommentRepository.save(any(StoryComment.class))).thenReturn(storyComment);
     }
@@ -75,10 +80,17 @@ public class StoryCommentServiceTest {
 
     @Test
     public void getStoryComment() {
-        when(storyCommentRepository.findById("1")).thenReturn(Optional.of(storyCommentList.get(0)));
+        when(storyCommentRepository.findById(anyString())).thenReturn(Optional.of(storyCommentList.get(0)));
         StoryComment actual = storyCommentService.getStoryComment("1");
         assertEquals(actual.getId(), "1");
     }
+
+//    @Test(expected = RecordNotFoundException.class)
+//    public void getStoryCommentNotFound() {
+//        when(storyCommentRepository.findById((anyString())))
+//                .thenThrow(new RecordNotFoundException("Record Not Found"));
+//        storyCommentService.getStoryComment("10");
+//    }
 
     @Test
     public void createStoryComment() {

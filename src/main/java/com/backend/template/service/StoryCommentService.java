@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class StoryCommentService {
@@ -40,7 +42,7 @@ public class StoryCommentService {
     }
 
     public StoryComment createStoryComment(CreateStoryComment createStoryComment, Long userId) {
-        if(!userStoryRepository.findById(createStoryComment.getStoryId()).isPresent())
+        if (!userStoryRepository.findById(createStoryComment.getStoryId()).isPresent())
             throw new RecordNotFoundException(Translator.toLocale("error.msg.story.not_found"));
         StoryComment storyComment = mapper.map(createStoryComment, StoryComment.class);
         storyComment.setCommentedTime(Utils.getUnixTimeInSecond());
@@ -49,14 +51,19 @@ public class StoryCommentService {
     }
 
     public StoryComment updateStoryComment(UpdateStoryComment updateStoryComment, Long userId) {
-        StoryComment storyComment = storyCommentRepository.findById(updateStoryComment.getId()).orElseThrow(()
-                -> new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found")));
-        if(storyComment.getUserId() != userId){
+        Optional<StoryComment> storyComment = storyCommentRepository.findById(updateStoryComment.getId());
+        updateStoryCommentValidation(storyComment, userId);
+        storyComment.get().setContent(updateStoryComment.getContent());
+        storyComment.get().setStatus(updateStoryComment.getStatus());
+
+        return storyCommentRepository.save(storyComment.get());
+    }
+
+    private void updateStoryCommentValidation(Optional<StoryComment> storyComment, Long userId) {
+        if (!storyComment.isPresent())
+            throw new RecordNotFoundException(Translator.toLocale("error.msg.record.not_found"));
+        if (storyComment.get().getUserId() != userId) {
             throw new RequestInvalidException(Translator.toLocale("error.msg.request.invalid"));
         }
-        storyComment.setContent(updateStoryComment.getContent());
-        storyComment.setStatus(updateStoryComment.getStatus());
-
-        return storyCommentRepository.save(storyComment);
     }
 }
