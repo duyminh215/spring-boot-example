@@ -1,8 +1,11 @@
 package com.backend.template.model;
 
-import java.io.Serializable;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * The persistent class for the achievement database table.
@@ -20,8 +23,9 @@ public class Achievement implements Serializable {
 
     private String content;
 
+    @CreationTimestamp
     @Column(name = "created_time")
-    private BigInteger createdTime;
+    private LocalDateTime createdTime;
 
     private String icon;
 
@@ -29,10 +33,19 @@ public class Achievement implements Serializable {
 
     private String title;
 
+    @UpdateTimestamp
     @Column(name = "updated_time")
-    private BigInteger updatedTime;
+    private LocalDateTime updatedTime;
 
     public Achievement() {
+    }
+
+    public Achievement(String content, String icon, int status, String title) {
+
+        this.content = content;
+        this.icon = icon;
+        this.status = status;
+        this.title = title;
     }
 
     public int getId() {
@@ -51,11 +64,11 @@ public class Achievement implements Serializable {
         this.content = content;
     }
 
-    public BigInteger getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return this.createdTime;
     }
 
-    public void setCreatedTime(BigInteger createdTime) {
+    public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -83,11 +96,11 @@ public class Achievement implements Serializable {
         this.title = title;
     }
 
-    public BigInteger getUpdatedTime() {
+    public LocalDateTime getUpdatedTime() {
         return this.updatedTime;
     }
 
-    public void setUpdatedTime(BigInteger updatedTime) {
+    public void setUpdatedTime(LocalDateTime updatedTime) {
         this.updatedTime = updatedTime;
     }
 

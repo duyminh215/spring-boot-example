@@ -1,8 +1,11 @@
 package com.backend.template.model;
 
-import java.io.Serializable;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 /**
  * The persistent class for the user_achievement database table.
@@ -16,27 +19,34 @@ public class UserAchievement implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "achievement_id")
     private BigInteger achievementId;
 
+    @CreationTimestamp
     @Column(name = "reached_time")
-    private BigInteger reachedTime;
+    private LocalDateTime reachedTime;
 
     private int status;
 
     @Column(name = "user_id")
-    private BigInteger userId;
+    private Long userId;
 
     public UserAchievement() {
     }
 
-    public String getId() {
+    public UserAchievement(long userId, BigInteger achievementId, int status) {
+        this.userId = userId;
+        this.achievementId = achievementId;
+        this.status = status;
+    }
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,11 +58,11 @@ public class UserAchievement implements Serializable {
         this.achievementId = achievementId;
     }
 
-    public BigInteger getReachedTime() {
+    public LocalDateTime getReachedTime() {
         return this.reachedTime;
     }
 
-    public void setReachedTime(BigInteger reachedTime) {
+    public void setReachedTime(LocalDateTime reachedTime) {
         this.reachedTime = reachedTime;
     }
 
@@ -64,11 +74,11 @@ public class UserAchievement implements Serializable {
         this.status = status;
     }
 
-    public BigInteger getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(BigInteger userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

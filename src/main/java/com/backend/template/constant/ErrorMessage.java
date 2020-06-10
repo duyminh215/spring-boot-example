@@ -11,6 +11,9 @@ public enum ErrorMessage {
 
     SESSION_EXPIRED(4903, "session_expired", HttpStatus.BAD_REQUEST),
 
+    //anhdt2
+    ACHIEVEMENT_NOT_FOUND(111, "achievement_not_found", HttpStatus.NOT_FOUND),
+
     UNSUPPORTED_VERSION(103, "unsupported_version", HttpStatus.PRECONDITION_FAILED),
     /** Invalid checksum key. */
     INVALID_CHECKSUM_KEY(104, "invalid_checksum_key", HttpStatus.PRECONDITION_FAILED),
