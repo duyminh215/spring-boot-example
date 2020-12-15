@@ -58,6 +58,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
         return ResponseEntity.ok(new ExceptionStatusResponse(error));
     }
 
+    @ExceptionHandler(StoryNotBelongUserException.class)
+    public final ResponseEntity<Object> handleStoryNotBelongUserException(StoryNotBelongUserException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                Translator.toLocale("error.msg.story.not_belong_user"), details);
+        logger.error(ex.getMessage());
+        return ResponseEntity.ok(new ExceptionStatusResponse(error));
+    }
+
     @ExceptionHandler(RequestInvalidException.class)
     public final ResponseEntity<Object> handleRequestInvalidException(RequestInvalidException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
